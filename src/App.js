@@ -12,7 +12,7 @@ const App = () => {
     async function fetchData() {
       const res = await fetch('https://discord.com/api/guilds/817819793502502942/widget.json')
       const data = await res.json();
-      const vivisChannel = data.members.find((m) => m.username === 'Marcel93')?.channel_id;
+      const vivisChannel = data.members.find((m) => m.username === 'littleMinerva')?.channel_id;
       setMembers(data.members.filter((m) => m.channel_id === vivisChannel));
     }
     fetchData();
