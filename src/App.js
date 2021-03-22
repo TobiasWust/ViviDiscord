@@ -12,18 +12,25 @@ const App = () => {
     async function fetchData() {
       const res = await fetch('https://discord.com/api/guilds/817819793502502942/widget.json')
       const data = await res.json();
-      const vivisChannel = data.members.find((m) => m.username === 'littleMinerva')?.channel_id;
+      const vivisChannel = data.members.find((m) => m.username === 'littleMinerva')?.channel_id || false;
       setMembers(data.members.filter((m) => m.channel_id === vivisChannel));
     }
     fetchData();
+    const interval = setInterval(() => {
+      fetchData();
+    }, 60000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
     <div className="box">
       <h1>Mit Vivi im Chat:</h1>
-      <ul>
-        {members.map((member) => <Member key={member.id} member={member} />)}
-      </ul>
+      {members.length > 0 ?
+        <ul>
+          {members.map((member) => <Member key={member.id} member={member} />)}
+        </ul>
+        : <p>Vivi ist nicht im Chat :(</p>
+      }
     </div>
   );
 }
